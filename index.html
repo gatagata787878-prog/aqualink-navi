@@ -1224,14 +1224,19 @@ function renderInfo(){
    {l:"🌐 ホームページ",v:"http://www.aqualink.tv",copy:"http://www.aqualink.tv"},
    {l:"🏦 お振込先",v:"千葉興業銀行 小金支店\n普通 6168421 アクアリンク",copy:"千葉興業銀行 小金支店 普通 6168421 アクアリンク",hl:1},
   ];
-  let html='<div class="info-card"><div class="info-name">アクアリンク株式会社</div><div class="info-tel"><a href="tel:0120579595">📞 TEL 0120-57-9595</a><a class="fax" href="tel:0120689595">FAX 0120-68-9595</a></div><div style="text-align:center;margin-top:8px;font-size:12px;color:var(--ink2);">携帯：090-4955-3577</div></div>';
+  let html='<div class="info-card"><div class="info-name">アクアリンク株式会社</div><div class="info-tel"><a href="tel:0120579595">📞 TEL 0120-57-9595</a><a class="fax" href="tel:0120689595">FAX 0120-68-9595</a></div></div>';
   COMP.forEach(c=>{
     if(c.big)return;
     const id='c'+(cid++); COPY[id]=c.copy||c.v;
     const v=c.v.replace(/\n/g,'<br>');
     html+=`<div class="info-card ${c.hl?'hl':''}"><div class="ic-l">${c.l}</div><div class="ic-row"><div class="ic-v">${v}</div>${c.copy?`<button class="ic-copy" data-c="${id}">📋 コピー</button>`:''}</div></div>`;
   });
-  html+='<div class="info-card"><div class="ic-l">📞 電話・FAX・携帯</div><div class="ic-v">TEL 0120-57-9595<br>FAX 0120-68-9595<br>携帯 090-4955-3577</div></div>';
+  const telId='c'+(cid++); COPY[telId]='0120-57-9595';
+  const faxId='c'+(cid++); COPY[faxId]='0120-68-9595';
+  html+='<div class="info-card"><div class="ic-l">📞 電話・FAX</div>'
+    +'<div class="ic-row"><div class="ic-v">TEL 0120-57-9595</div><button class="ic-copy" data-c="'+telId+'">📋 コピー</button></div>'
+    +'<div class="ic-row" style="margin-top:8px;"><div class="ic-v">FAX 0120-68-9595</div><button class="ic-copy" data-c="'+faxId+'">📋 コピー</button></div>'
+    +'</div>';
   listEl.innerHTML=html;
   listEl.querySelectorAll('.ic-copy').forEach(btn=>{btn.onclick=()=>{doCopy(COPY[btn.dataset.c],btn);};});
   cntEl.textContent='';
